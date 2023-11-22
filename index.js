@@ -20,15 +20,16 @@ const initialisePuppeteer = async () => {
     try{
         const browser = await puppeteer.launch({
             headless: false,
+            defaultViewport: null,
             args: ['--start-maximized']
          });
 
         const page = await browser.newPage();
 
-        await page.viewport({
-            width: 2560,
-            height: 1440
-        });
+        // await page.viewport({
+        //     width: 1920,
+        //     height: 1080
+        // });
 
         await page.setDefaultNavigationTimeout(60000);
         await page.goto(url);
@@ -37,9 +38,9 @@ const initialisePuppeteer = async () => {
         await page.click('#malLogin');
         
         await page.waitForSelector('input[id = "loginUserName"]');
-        await page.type('input[id = "loginUserName"]', process.env.USERNOM, { delay: 200 });
+        await page.type('input[id = "loginUserName"]', process.env.USERNOM, { delay: 100 });
         await page.waitForSelector('#login-password');
-        await page.type('#login-password', process.env.PASSWORD, { delay: 200 });
+        await page.type('#login-password', process.env.PASSWORD, { delay: 100 });
         await page.click('input[type = "submit"]');
         
        
