@@ -1,5 +1,6 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
+const dotenv = require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,26 +27,31 @@ const initialisePuppeteer = async () => {
             height: 1440
         });
 
+        await page.setDefaultNavigationTimeout(60000);
         await page.goto(url);
 
-        await page.waitForSelector('div[class = "tbl-next-up-closeBtn"]');
-        await page.click('div[class = "tbl-next-up-closeBtn"]');
-        await page.waitForTimeout(1000);
+        // await page.waitForSelector('div[class = "tbl-next-up-closeBtn"]');
+        // await page.click('div[class = "tbl-next-up-closeBtn"]');
+        // await page.waitForTimeout(10000);
 
-        await page.waitForSelector('button');
-        await page.click('button');
+        // await page.waitForSelector('button');
+        // await page.click('button');
 
-        await page.click('a[id = "malLogin"]');
+        const [response] = await Promise.all([
+            page.waitForNavigation(),
+            page.click('#malLogin'),
+            page.waitForSelector('#loginUserName'),
+            page.type('#loginUserName', process.env.USERNAME),
+            page.waitForSelector('#login-password'),
+            page.type('#login-password', process.env.PASSWORD),
+            page.click('.inputButton')
+        ]);
+        
+        await page.waitForTimeout(30000);
 
-        await page.type('input[id = "loginUserName"]', process.env.USERNAME);
-        await page.type('input[id = "password"]', process.env.PASSWORD);
-        await page.click('button[type = "submit"]');
-
-        await page.waitForTimeout(3000);
-
-        await page.click('a[class = "js-btn-count increase ml4"]');
+        await page.click('.js-btn-count');
         
     } catch (err){
-        console.log(error);
+        console.log(err);
     }
 };
