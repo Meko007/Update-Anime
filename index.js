@@ -19,7 +19,7 @@ const url = 'https://myanimelist.net/anime/54595/Kage_no_Jitsuryokusha_ni_Narita
 const initialisePuppeteer = async () => {
     try{
         const browser = await puppeteer.launch({
-            headless: false,
+            headless: false, // or `headless: "new"`
             defaultViewport: null,
             args: ['--start-maximized']
          });
@@ -60,6 +60,8 @@ const initialisePuppeteer = async () => {
         
         await page.waitForTimeout(5000);
         browser.close();
+
+        console.log("Done");
     } catch (err){
         console.log(err);
     }
