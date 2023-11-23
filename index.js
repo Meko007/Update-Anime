@@ -10,59 +10,59 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    initialisePuppeteer();
+    update();
     console.log(`server is running on port: ${port}`);
 });
 
 const url = 'https://myanimelist.net/anime/54595/Kage_no_Jitsuryokusha_ni_Naritakute_2nd_Season';
 
-const initialisePuppeteer = async () => {
-    try{
-        const browser = await puppeteer.launch({
-            headless: false, // or `headless: "new"`
-            defaultViewport: null,
-            args: ['--start-maximized']
-         });
-
-        const page = await browser.newPage();
-
-        // await page.viewport({
-        //     width: 1920,
-        //     height: 1080
-        // });
-
-        await page.setDefaultNavigationTimeout(60000);
-        await page.goto(url);
-
-        
-        await page.click('#malLogin');
-        
-        await page.waitForSelector('input[id = "loginUserName"]');
-        await page.type('input[id = "loginUserName"]', process.env.USERNOM, { delay: 100 });
-        await page.waitForSelector('#login-password');
-        await page.type('#login-password', process.env.PASSWORD, { delay: 100 });
-        await page.click('input[type = "submit"]');
-        
-       
-        await page.evaluate(() => {
-            const form = document.querySelector('form.recaptcha-form');
-            form.submit();
+const update = async () => {
+    // try{
+    const browser = await puppeteer.launch({
+        headless: false, // or `headless: "new"`
+        defaultViewport: null,
+        args: ['--start-maximized']
         });
 
-        await page.waitForNavigation();
+    const page = await browser.newPage();
+
+    // await page.viewport({
+    //     width: 1920,
+    //     height: 1080
+    // });
+
+    await page.setDefaultNavigationTimeout(60000);
+    await page.goto(url);
+
     
-        await page.waitForTimeout(3000);
+    await page.click('#malLogin');
+    
+    await page.waitForSelector('input[id = "loginUserName"]');
+    await page.type('input[id = "loginUserName"]', process.env.USERNOM, { delay: 100 });
+    await page.waitForSelector('#login-password');
+    await page.type('#login-password', process.env.PASSWORD, { delay: 100 });
+    await page.click('input[type = "submit"]');
+    
+    
+    await page.evaluate(() => {
+        const form = document.querySelector('form.recaptcha-form');
+        form.submit();
+    });
 
-        await page.click('.js-btn-count');
+    await page.waitForNavigation();
 
-        await page.waitForSelector('.btn-close');
-        await page.click('.btn-close');
-        
-        await page.waitForTimeout(5000);
-        browser.close();
+    await page.waitForTimeout(3000);
 
-        console.log("Done");
-    } catch (err){
-        console.log(err);
-    }
+    await page.click('.js-btn-count');
+
+    await page.waitForSelector('.btn-close');
+    await page.click('.btn-close');
+    
+    await page.waitForTimeout(5000);
+    await browser.close();
+
+    console.log("Done");
+    // } catch (err){
+    //     console.log(err);
+    // }
 };
