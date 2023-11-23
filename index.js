@@ -10,13 +10,13 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-    update();
+    // update();
     console.log(`server is running on port: ${port}`);
 });
 
-const url = 'https://myanimelist.net/anime/54595/Kage_no_Jitsuryokusha_ni_Naritakute_2nd_Season';
+// const url = 'https://myanimelist.net/anime/54595/Kage_no_Jitsuryokusha_ni_Naritakute_2nd_Season';
 
-const update = async () => {
+const update = async (url) => {
     // try{
     const browser = await puppeteer.launch({
         headless: false, // or `headless: "new"`
@@ -31,7 +31,7 @@ const update = async () => {
     //     height: 1080
     // });
 
-    await page.setDefaultNavigationTimeout(60000);
+    await page.setDefaultNavigationTimeout(240000);
     await page.goto(url);
 
     
@@ -66,3 +66,5 @@ const update = async () => {
     //     console.log(err);
     // }
 };
+// update('https://myanimelist.net/anime/51009/Jujutsu_Kaisen_2nd_Season');
+// update('https://myanimelist.net/anime/55644/Dr_Stone__New_World_Part_2');
