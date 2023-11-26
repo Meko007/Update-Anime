@@ -1,6 +1,8 @@
-const express = require('express');
-const puppeteer = require('puppeteer');
-const dotenv = require("dotenv").config();
+import express from 'express';
+import puppeteer from 'puppeteer';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -14,7 +16,6 @@ app.listen(port, () => {
     console.log(`server is running on port: ${port}`);
 });
 
-// const url = 'https://myanimelist.net/anime/54595/Kage_no_Jitsuryokusha_ni_Naritakute_2nd_Season';
 
 const update = async (url) => {
     // try{
