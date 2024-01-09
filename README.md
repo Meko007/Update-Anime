@@ -29,6 +29,11 @@ To update the watched status of an anime, run the following command:
 ```
 npm run dev
 ```
+Head over to the browser and insert the url of the show you want to update as a query parameter at the end of the URL.
+
+```
+http://localhost:XXXX/run?url=<the url>
+```
 
 
 This will open a headless Puppeteer browser, navigate to the specified anime page, log in to your MAL account, and click the plus button.
